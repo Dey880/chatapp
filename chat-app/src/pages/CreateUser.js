@@ -10,19 +10,17 @@ export default function CreateUser() {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [role, setRole] = useState("user");
-  const [userRole, setUserRole] = useState(null); // To store the current user's role (admin, user, etc.)
+  const [userRole, setUserRole] = useState(null);
 
   const navigate = useNavigate();
-
-  // Fetch the current user's role when the component mounts
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/user`, { withCredentials: true }) // Assuming the API gives user data with role
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/user`, { withCredentials: true })
       .then((response) => {
-        setUserRole(response.data.role); // Store the role of the logged-in user
+        setUserRole(response.data.role);
       })
       .catch((error) => {
-        console.log("Error fetching user role:", error);
+        console.error("Error fetching user role:", error);
       });
   }, []);
 
@@ -40,11 +38,11 @@ export default function CreateUser() {
         if (response.data.status === "login") {
           navigate("/login");
         } else {
-          console.log("User creation error:", response.data.error);
+          console.error("User creation error:", response.data.error);
         }
       })
       .catch((error) => {
-        console.log("Error during registration:", error);
+        console.error("Error during registration:", error);
       });
   };
 

@@ -8,7 +8,7 @@ export default function CreateRoom({ userId }) {
   const [isPublic, setIsPublic] = useState(true);
   const [invitedEmails, setInvitedEmails] = useState([]);
   const [emailInput, setEmailInput] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);  // Track if user is admin
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -16,12 +16,12 @@ export default function CreateRoom({ userId }) {
       try {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user`, {
           method: "GET",
-          credentials: "include", // Include credentials to use the cookie
+          credentials: "include",
         });
         if (response.ok) {
           const user = await response.json();
           setIsAdmin(user.role === "admin");
-          setIsPublic(user.role === "admin");  // Default to public for admins
+          setIsPublic(user.role === "admin");
         }
       } catch (error) {
         console.error("Error fetching user role:", error);
@@ -64,7 +64,6 @@ export default function CreateRoom({ userId }) {
 
       if (response.ok) {
         const newRoom = await response.json();
-        console.log("Room created successfully:", newRoom);
         navigate(`/chat`);
       } else {
         console.error("Failed to create room");

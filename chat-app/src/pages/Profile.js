@@ -41,7 +41,6 @@ const pfpApi = useCallback(
         const { displayName, bio, profilePicture } = response.data;
         const profilePfp =
           profilePicture || pfpApi(displayName || response.data.email);
-        console.log("Generated Profile Picture URL:", profilePfp);
         setUserInfo({
           displayName,
           bio,

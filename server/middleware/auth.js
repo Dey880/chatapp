@@ -9,7 +9,7 @@ const authenticateJWT = (req, res, next) => {
     if (err) {
       return res.status(403).json({ error: "Invalid token" });
     }
-    req.userId = user.userId;  // store user ID in the request
+    req.userId = user.userId;
     next();
   });
 };
