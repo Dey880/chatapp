@@ -271,7 +271,12 @@ app.get("/api/rooms/:roomId", authenticateJWT, async (req, res) => {
       return res.status(403).json({ error: "Unauthorized to view this room" });
     }
 
-    const ownerEmail = (await User.findById(room.isOwner)).email;
+    const ownerUser = await User.findById(room.isOwner);
+    if (!ownerUser) {
+      return res.status(404).json({ error: "Owner user not found" });
+    }
+
+    const ownerEmail = ownerUser.email;
     const invitedUsers = room.invitedUsers.filter(
       (user) => user.email !== ownerEmail
     );
