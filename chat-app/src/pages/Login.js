@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 import styles from "../css/Login.module.css";
 import Info from "../components/Info.js";
 import AboutButton from "../components/AboutButton.js";
@@ -15,26 +16,26 @@ export default function Login() {
     e.preventDefault();
 
     axios
-      .post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/login`,
-        { email, password },
-        { withCredentials: true }
-      )
-      .then((response) => {
-        if (response.data.status === "login") {
-          const token = response.data.token;
-          if (token) {
-            const decoded = jwtDecode(token);
-            localStorage.setItem("user", JSON.stringify(decoded));
-            navigate("/chat");
-          } else {
-            alert("No token received. Please try again.");
-          }
+    .post(
+      `${process.env.REACT_APP_BACKEND_URL}/api/login`,
+      { email, password },
+      { withCredentials: true }
+    )
+    .then((response) => {
+      if (response.data.status === "login") {
+        const token = response.data.token;
+        if (token) {
+          const decoded = jwtDecode(token);
+          Cookies.set("user", JSON.stringify(decoded));
+          navigate("/chat");
         } else {
-          alert("Login failed. Please check your credentials.");
+          alert("No token received. Please try again.");
         }
-      })
-      .catch((error) => {
+      } else {
+        alert("Login failed. Please check your credentials.");
+      }
+    })
+    .catch((error) => {  
         if (error.response) {
           alert(error.response.data.error || "An error occurred during login.");
         } else if (error.request) {

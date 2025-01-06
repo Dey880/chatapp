@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/SideBar";
 import ChatRoom from "../components/ChatRoom";
 import io from "socket.io-client";
+import Cookies from "js-cookie";
 import styles from "../css/ChatPage.module.css";
 
 const socket = io(process.env.REACT_APP_BACKEND_URL, {
@@ -13,7 +14,8 @@ export default function ChatPage() {
   const navigate = useNavigate();
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [rooms, setRooms] = useState([]);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(Cookies.get("user") || '{}');
+  
   const displayName = user.displayName || user.email;
 
   useEffect(() => {

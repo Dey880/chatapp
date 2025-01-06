@@ -8,7 +8,7 @@ export default function Sidebar({ rooms, selectRoom, user }) {
       room.isOwner === user.userId || ["admin", "moderator"].includes(user.role)
     );
   };
-
+  
   return (
     <div className={styles.sidebar}>
       <h2>Chat Rooms: </h2>

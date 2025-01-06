@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import styles from "../css/ChatRoom.module.css";
 
 export default function ChatRoom({
@@ -15,13 +16,13 @@ export default function ChatRoom({
   const [roomDescription, setRoomDescription] = useState("");
   const messageEndRef = useRef(null);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchRoomDetails = async () => {
       try {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/rooms/${roomId}`, {
           method: 'GET',
-          headers: {
-          },
+          headers: {},
           credentials: 'include',
         });
   
@@ -76,7 +77,7 @@ export default function ChatRoom({
       return;
     }
 
-    const userData = JSON.parse(localStorage.getItem("user"));
+    const userData = JSON.parse(Cookies.get("user") || '{}');
     const displayName = userData.displayName || userData.email;
 
     const messageData = {

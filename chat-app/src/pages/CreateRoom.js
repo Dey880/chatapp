@@ -63,7 +63,6 @@ export default function CreateRoom({ userId }) {
       });
 
       if (response.ok) {
-        const newRoom = await response.json();
         navigate(`/chat`);
       } else {
         console.error("Failed to create room");
